@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duel PVP — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#FFD64D;
+    --gold-hi:#FFF3A3;
+    --bg:#0b0f12;
+    --glow-x: 80%;
+    --glow-y: 32%;
+    --glow-w: 211px;
+    --glow-h: 366px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--bg);color:#e6ecf1;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+  .bg{position:fixed;inset:0;overflow:hidden;z-index:0}
+  .bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;filter:contrast(1.04) saturate(1.02)}
+  @keyframes lavaPulse6{
+    0%,100% { opacity:.12; filter:brightness(1.0); }
+    25%     { opacity:.24; filter:brightness(1.12); }
+    50%     { opacity:.06; filter:brightness(0.92); }
+    75%     { opacity:.30; filter:brightness(1.18); }
+  }
+  .bg::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:
+      radial-gradient( var(--glow-w) var(--glow-h) at var(--glow-x) var(--glow-y),
+        rgba(255,220,170,.45), rgba(255,170,120,.14) 45%, rgba(255,140,90,.04) 70%, transparent 72%),
+      radial-gradient( 96px 180px at calc(var(--glow-x) + 5%) calc(var(--glow-y) - 5%),
+        rgba(255,235,205,.18), rgba(255,170,120,.04) 60%, transparent 65%);
+    mix-blend-mode: screen;
+    animation: lavaPulse6 6s ease-in-out infinite;
+  }
+  .brand{
+    position:fixed; left:18px; top:14px; z-index:6;
+    text-align:left; font-family:'Press Start 2P', monospace; line-height:1.2;
+    color:#e6ecf1;
+  }
+  .brand .title{
+    color:var(--gold); text-shadow:6px 6px 0 #000, 0 -2px 0 rgba(255,243,163,.4);
+    letter-spacing:.06em;
+    font-size:28px;
+    margin-bottom:6px;
+  }
+  .brand .slogan{
+    font-size:14px;
+    color:#ffffff;
+    animation: sloganPulse 6s ease-in-out infinite;
+  }
+  @keyframes sloganPulse{
+    0%   { opacity:0;   text-shadow:none; }
+    40%  { opacity:1;   text-shadow:0 0 14px rgba(255,255,255,.95), 0 0 26px rgba(255,255,255,.65), 0 2px 0 rgba(0,0,0,.75); }
+    60%  { opacity:1;   text-shadow:0 0 14px rgba(255,255,255,.95), 0 0 26px rgba(255,255,255,.65), 0 2px 0 rgba(0,0,0,.75); }
+    100% { opacity:0;   text-shadow:none; }
+  }
+  .frame{position:fixed;inset:0;display:grid;place-items:end center;padding-bottom:10vh; z-index:4}
+  .panel{width:min(680px,92vw); background:#c9b083; border:2px solid #5a4328; border-radius:8px;
+         box-shadow:0 14px 0 #2b2015, inset 0 0 0 2px rgba(255,255,255,.25);
+         padding:16px 18px 18px; font-family:'Press Start 2P', monospace; color:#232016;
+         background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.05), rgba(0,0,0,.05) 2px, transparent 2px, transparent 6px);}
+  .sys{font-size:14px;margin-bottom:12px}
+  .blink{animation:blinkDot 1s infinite}
+  @keyframes blinkDot{0%,50%{opacity:1}50.1%,100%{opacity:0}}
+  .bar{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .email{flex:1;padding:10px 12px;border:2px solid #7e684a;border-radius:8px;background:#eadab8;color:#232016;
+         font-family:'Press Start 2P', monospace;font-size:12px}
+  .btn{padding:10px 14px;border:2px solid #332514;border-radius:8px;background:#8f6b2a;color:#fff;
+       font-family:'Press Start 2P', monospace; font-size:12px; cursor:pointer;
+       box-shadow:0 4px 0 #332514;}
+  .btn:active{transform:translateY(2px); box-shadow:0 2px 0 #332514}
+  .helper{margin-top:6px;font-size:10px;color:#ffffff;text-align:right;}
+  .helper a{color:#ffffff;text-decoration:none;}
+  .helper a:hover{text-decoration:underline;}
+  .footer{position:fixed;right:20px;bottom:16px;font-size:12px;opacity:.85; z-index:3}
+</style>
+</head>
+<body>
+  <div class="bg">
+    <img src="assets/bg-wildy.png" alt="Wilderness background">
+  </div>
+  <div class="brand">
+    <div class="title">DUEL PVP</div>
+    <div class="slogan">Real time, real skill, real rewards.</div>
+  </div>
+  <main class="frame">
+    <section class="panel" role="region" aria-label="Rune-style dialogue">
+      <div class="sys">Welcome back, champion<span class="blink">.</span></div>
+      <div class="bar">
+        <label style="min-width:82px">Email:</label>
+        <input id="login-email" class="email" type="email" placeholder="name@example.com">
+      </div>
+      <div class="bar">
+        <label style="min-width:82px">Pass:</label>
+        <input id="login-pass" class="email" type="password" placeholder="********">
+        <button class="btn" id="login">LOG IN</button>
+      </div>
+      <div class="helper"><a href="index.html">return to the gate</a></div>
+    </section>
+  </main>
+  <div class="footer">© 2025 Duel PVP</div>
+  <script>
+    document.getElementById('login').addEventListener('click', () => {
+      const email = document.getElementById('login-email').value.trim();
+      const pass  = document.getElementById('login-pass').value.trim();
+      if (!email || !pass) {
+        alert('Enter email and password first');
+        return;
+      }
+      // Store email locally so the dashboard can look up this user
+      try {
+        localStorage.setItem('duelpvp_email', email);
+      } catch (e) {}
+      // TODO: Replace this fake login with real auth later
+      window.location.href = 'dashboard.html';
+    });
+
+  </script>
+</body>
+</html>
