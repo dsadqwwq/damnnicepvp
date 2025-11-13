@@ -89,6 +89,11 @@
        box-shadow:0 4px 0 #332514;}
   .btn:active{transform:translateY(2px); box-shadow:0 2px 0 #332514}
 
+  
+.helper{margin-top:10px;font-size:10px;color:#ffffff;text-align:right;}
+.helper a{color:#ffffff;text-decoration:none;}
+.helper a:hover{text-decoration:underline;}
+
   .footer{position:fixed;right:20px;bottom:16px;font-size:12px;opacity:.85; z-index:3}
   .debug .bg::after{ outline:1px dashed rgba(255,255,255,.35) }
   .debug .glow-handle{
@@ -100,11 +105,6 @@
     position:fixed; left:12px; bottom:12px; z-index:20; font:12px/1.4 'Press Start 2P', monospace;
     background:rgba(0,0,0,.55); padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.2);
   }
-
-  .helper{margin-top:10px;font-size:10px;color:#ffffff;text-align:right;}
-  .helper a{color:#ffffff;text-decoration:none;}
-  .helper a:hover{text-decoration:underline;}
-
 </style>
 </head>
 <body>
@@ -126,9 +126,11 @@
         <input id="code" class="email" type="text" placeholder="ENTER ACCESS CODE">
         <button class="btn" id="join">JOIN</button>
       </div>
-      <div class="helper"><a href="login.html">already winning?</a></div>
-    </section>
-  </main>
+
+    <div class="helper"><a href="login.html">already winning?</a></div>
+  </section>
+</main>
+
 
   <div class="footer">© 2025 Duel PVP</div>
 
@@ -190,7 +192,7 @@
 
     document.getElementById('join').addEventListener('click', () => {
       const v = document.getElementById('code').value.trim();
-      alert(v ? `Saved: ${v}` : 'Enter an email first');
+      alert(v ? `Saved: ${v}` : 'Enter a code first');
     });
   </script>
 </body>

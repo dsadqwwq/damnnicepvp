@@ -3,19 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Duel PVP — Quests</title>
+<title>Duel PVP — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
+
   :root{
     --gold:#FFD64D;
     --gold-hi:#FFF3A3;
     --bg:#0b0f12;
-    --panel:#c9b083;
-    --panel-border:#5a4328;
-    --panel-shadow:#2b2015;
-    --text-dark:#232016;
+
+    /* Glow slightly up + right from v8 */
     --glow-x: 80%;
     --glow-y: 32%;
     --glow-w: 211px;
@@ -25,12 +24,15 @@
   html,body{height:100%;margin:0;background:var(--bg);color:#e6ecf1;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
   .bg{position:fixed;inset:0;overflow:hidden;z-index:0}
   .bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;filter:contrast(1.04) saturate(1.02)}
+
+  /* Slower coordinated glow (same as v8, 6s, slightly subdued) */
   @keyframes lavaPulse6{
     0%,100% { opacity:.12; filter:brightness(1.0); }
     25%     { opacity:.24; filter:brightness(1.12); }
     50%     { opacity:.06; filter:brightness(0.92); }
     75%     { opacity:.30; filter:brightness(1.18); }
   }
+
   .bg::after{
     content:""; position:absolute; inset:0; pointer-events:none;
     background:
@@ -41,6 +43,8 @@
     mix-blend-mode: screen;
     animation: lavaPulse6 6s ease-in-out infinite;
   }
+
+  /* Brand text in corner */
   .brand{
     position:fixed; left:18px; top:14px; z-index:6;
     text-align:left; font-family:'Press Start 2P', monospace; line-height:1.2;
@@ -49,330 +53,111 @@
   .brand .title{
     color:var(--gold); text-shadow:6px 6px 0 #000, 0 -2px 0 rgba(255,243,163,.4);
     letter-spacing:.06em;
-    font-size:24px;
-    margin-bottom:4px;
+    font-size:28px;
+    margin-bottom:6px;
+    /* Title stays static – no animation */
   }
-  .brand .slogan{font-size:12px;color:#ffffff;}
-  .top-bar{
-    position:fixed; top:12px; right:18px; display:flex; gap:10px; z-index:6;
-    font-family:'Press Start 2P', monospace; font-size:10px;
-  }
-  .tab-btn{
-    display:flex;align-items:center;gap:6px;
-    padding:6px 10px;border:2px solid #43301c;border-radius:6px;
-    background:rgba(10,7,4,.85);color:#f5e7c7;cursor:pointer;
-    box-shadow:0 3px 0 #0a0704;
-  }
-  .tab-btn.active{background:#c9b083;color:#201610;box-shadow:0 3px 0 #43301c;}
-  .pixel-icon{
-    width:14px;height:14px;
-    image-rendering:pixelated;
-    background:#2b1b0a;
-    box-shadow:0 0 0 2px #000,
-               2px 0 0 0 #000,
-               -2px 0 0 0 #000,
-               0 2px 0 0 #000,
-               0 -2px 0 0 #000,
-               0 0 0 4px #5a4328;
-    position:relative;
-  }
-  .pixel-icon.quest::after{
-    content:"";position:absolute;left:3px;top:2px;width:8px;height:10px;
-    background:linear-gradient(#ffe6b8,#e3b56b);
-    box-shadow:1px 0 0 #8a5a2e;
-  }
-  .pixel-icon.bag::after{
-    content:"";position:absolute;left:2px;top:3px;width:10px;height:8px;
-    background:linear-gradient(#c28a3b,#8a5a2e);
-    box-shadow:0 1px 0 #5a3618;
-  }
-  .layout{
-    position:fixed;inset:0;display:grid;
-    grid-template-columns:minmax(260px,360px) 1fr;
-    padding:80px 4vw 32px;
-    z-index:4;
-    gap:18px;
-  }
-  .panel{
-    background:var(--panel);border:2px solid var(--panel-border);border-radius:8px;
-    box-shadow:0 14px 0 var(--panel-shadow), inset 0 0 0 2px rgba(255,255,255,.25);
-    padding:10px 12px 14px;
-    font-family:'Press Start 2P', monospace;color:var(--text-dark);
-    background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.05), rgba(0,0,0,.05) 2px, transparent 2px, transparent 6px);
-    overflow:auto;
-  }
-  .panel-title{font-size:13px;margin-bottom:8px;color:#3a2312;}
-  .quest-list{list-style:none;padding:0;margin:0;font-size:11px;}
-  .quest-item{display:flex;align-items:flex-start;gap:6px;margin-bottom:8px;}
-  .quest-bullet{
-    width:10px;height:10px;
-    background:#304f9a;
-    box-shadow:0 0 0 2px #000,0 0 0 4px #c9b083;
-    image-rendering:pixelated;
-  }
-  .quest-text span{display:block;}
-  .quest-name{color:#234f1e;}
-  .quest-desc{font-size:9px;color:#43301c;margin-top:2px;}
-  .right-panel{
-    display:flex;flex-direction:column;gap:10px;
-  }
-  .card{
-    background:rgba(0,0,0,.55);
-    border:2px solid rgba(0,0,0,.8);
-    border-radius:10px;
-    padding:10px 12px;
-    font-family:'Press Start 2P', monospace;
-    font-size:10px;
-    color:#f5e7c7;
-  }
-  .codes-list{margin-top:8px;font-size:11px;}
-  .code-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-  .code-chip{
-    padding:4px 6px;border-radius:4px;
-    background:#201712;border:1px solid #f7d46a;
-    color:#f7d46a;
-  }
-  .code-status{font-size:9px;opacity:.8;}
-  .small{font-size:9px;opacity:.8;margin-top:6px;}
-  .logout-link{margin-top:10px;font-size:9px;}
-  .logout-link a{color:#f5e7c7;text-decoration:none;}
-  .logout-link a:hover{text-decoration:underline;}
-  @media(max-width:900px){
-    .layout{grid-template-columns:1fr;padding:80px 3vw 24px;}
-    .right-panel{order:-1;}
-  }
-</style>
-</head>
-<body>
-  <div class="bg">
-    <img src="assets/bg-wildy.png" alt="Wilderness background">
-  </div>
-  <div class="brand">
-    <div class="title">DUEL PVP</div>
-    <div class="slogan">Battle • Earn • Dominate</div>
-  </div>
-  <div class="top-bar">
-    <button class="tab-btn active" data-tab="quests">
-      <span class="pixel-icon quest"></span><span>Quests</span>
-    </button>
-    <button class="tab-btn" data-tab="inventory">
-      <span class="pixel-icon bag"></span><span>Inventory</span>
-    </button>
-  </div>
-  <div class="layout">
-    <section class="panel" id="quests-panel" aria-label="Quests">
-      <div class="panel-title">Quests</div>
-      <ul class="quest-list">
-        <li class="quest-item">
-          <div class="quest-bullet"></div>
-          <div class="quest-text">
-            <span class="quest-name">Invite 3 friends</span>
-            <span class="quest-desc">Share your codes and bring 3 warriors into the arena.</span>
-          </div>
-        </li>
-        <li class="quest-item">
-          <div class="quest-bullet"></div>
-          <div class="quest-text">
-            <span class="quest-name">Follow @duelpvp</span>
-            <span class="quest-desc">Track updates, drops, and new arenas in real time.</span>
-          </div>
-        </li>
-        <li class="quest-item">
-          <div class="quest-bullet"></div>
-          <div class="quest-text">
-            <span class="quest-name">Retweet the signal</span>
-            <span class="quest-desc">Retweet the pinned post to spread the call to battle.</span>
-          </div>
-        </li>
-      </ul>
-    </section>
-    <section class="right-panel" id="inventory-panel" aria-label="Inventory" style="display:none;">
-      <div class="card">
-        <div>Invite Codes</div>
-        <div class="codes-list" id="codes-list">
-          <div class="small">Loading your codes...</div>
-        </div>
-        <div class="small">Each code can be used once to enter the arena.</div>
-      </div>
-      <div class="card" id="profile-card">
-        <div id="player-email"></div>
-        <div class="small">Your progress is tied to this account.</div>
-        <div class="logout-link"><a href="index.html">leave the arena</a></div>
-      </div>
-    </section>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const email = urlParams.get('email');
-    const emailEl = document.getElementById('player-email');
-    if(emailEl){
-      emailEl.textContent = email ? 'Adventurer: ' + email : 'Unknown adventurer';
-    }
-
-    const questsPanel = document.getElementById('quests-panel');
-    const inventoryPanel = document.getElementById('inventory-panel');
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const tab = btn.getAttribute('data-tab');
-        if(tab === 'quests'){
-          questsPanel.style.display = 'block';
-          inventoryPanel.style.display = 'none';
-        }else{
-          questsPanel.style.display = 'none';
-          inventoryPanel.style.display = 'flex';
-        }
-      });
-    });
-
-    const SUPABASE_URL = 'https://smgqccnggmyreacjyyil.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtZ3FjY25nZ215cmVhY2p5eWlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5ODIwNDgsImV4cCI6MjA3ODU1ODA0OH0.y1AeyXkKCdVvE3JUIlCyDl6p12TFrgMkEiUocUB4YMI';
-
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    async function getOrCreateUser(email){
-      if(!email){ return null; }
-      let { data: existing, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('email', email)
-        .maybeSingle();
-      if(error){
-        console.error('Error fetching user', error);
-        return null;
-      }
-      if(existing){ return existing; }
-      const { data, error: insertError } = await supabase
-        .from('users')
-        .insert({ email, points: 0 })
-        .select()
-        .single();
-      if(insertError){
-        console.error('Error creating user', insertError);
-        return null;
-      }
-      return data;
-    }
-
-    async function loadCodes(userId){
-      const codesList = document.getElementById('codes-list');
-      if(!userId){
-        codesList.innerHTML = '<div class="small">No user found.</div>';
-        return;
-      }
-      const { data, error } = await supabase
-        .from('codes')
-        .select('code, used_by, used_at')
-        .eq('owner_id', userId);
-      if(error){
-        console.error('Error loading codes', error);
-        codesList.innerHTML = '<div class="small">Could not load codes.</div>';
-        return;
-      }
-      if(!data || data.length === 0){
-        codesList.innerHTML = '<div class="small">No codes yet. Try reloading in a moment.</div>';
-        return;
-      }
-      codesList.innerHTML = '';
-      data.forEach(row => {
-        const div = document.createElement('div');
-        div.className = 'code-row';
-        const status = row.used_at ? 'used' : 'unused';
-        div.innerHTML = '<span class="code-chip">' + row.code + '</span>' +
-                        '<span class="code-status">' + status + '</span>';
-        codesList.appendChild(div);
-      });
-    }
-
-    (async () => {
-      if(!email) return;
-      const user = await getOrCreateUser(email);
-      if(user && user.id){
-        loadCodes(user.id);
-      }
-    })();
-  </script>
-</body>
-</html>
-
-  .quest-bullet{
-    width:8px;height:8px;margin-top:3px;
-    background:#4da14f;
-    box-shadow:0 0 0 1px #1b3c18, 0 0 8px rgba(77,161,79,.7);
+  /* SUPER-WHITE slogan glow: smooth single fade in/out */
+  .brand .slogan{
+    font-size:14px;
+    color:#ffffff;
+    animation: sloganPulse 6s ease-in-out infinite;
   }
-  .quest-text-main{color:#173814;}
-  .quest-text-sub{color:#3e2b14;font-size:9px;margin-top:2px;}
 
-  .inv-title{
-    font-size:13px;
-    color:#f4e0a6;
-    margin-bottom:10px;
+  @keyframes sloganPulse{
+    0%   { opacity:0;   text-shadow:none; }
+    40%  { opacity:1;   text-shadow:0 0 14px rgba(255,255,255,.95), 0 0 26px rgba(255,255,255,.65), 0 2px 0 rgba(0,0,0,.75); }
+    60%  { opacity:1;   text-shadow:0 0 14px rgba(255,255,255,.95), 0 0 26px rgba(255,255,255,.65), 0 2px 0 rgba(0,0,0,.75); }
+    100% { opacity:0;   text-shadow:none; }
   }
-  .code-card{
-    margin-bottom:8px;
-    padding:6px 8px;
-    border-radius:6px;
-    border:2px solid #5a4328;
-    background:#e5d1aa;
-    font-size:10px;
-  }
-  .code-label{color:#3e2b14;margin-bottom:3px;}
-  .code-value{
-    font-size:11px;
-    padding:4px 6px;
-    border-radius:4px;
-    background:#1b1b1b;
-    color:#f5f5f5;
-    letter-spacing:.08em;
-  }
-  .code-actions{
-    margin-top:4px;
-    display:flex;
-    gap:6px;
-  }
-  .tiny-btn{
-    padding:4px 6px;
-    border-radius:4px;
-    border:2px solid #43301b;
-    background:#8f6b2a;
-    color:#fff;
-    font-size:9px;
-    cursor:pointer;
-    font-family:'Press Start 2P', monospace;
-  }
-  .tiny-btn:active{transform:translateY(1px);}
 
-  .right-panel{
-    background:rgba(9,7,5,.82);
-    border-radius:10px;
-    border:1px solid rgba(255,210,120,.3);
-    padding:10px 14px;
-    font-family:'Press Start 2P', monospace;
-    font-size:10px;
-    color:#f5e7c0;
-    box-shadow:0 0 26px rgba(0,0,0,.9);
-  }
-  .right-panel h3{
-    margin:0 0 8px;
-    font-size:11px;
-    color:#ffe39e;
-  }
-  .right-row{display:flex;justify-content:space-between;margin-bottom:4px;}
-  .right-label{color:#bda37b;}
-  .right-value{color:#ffffff;}
+  .frame{position:fixed;inset:0;display:grid;place-items:end center;padding-bottom:10vh; z-index:4}
+  .panel{width:min(680px,92vw); background:#c9b083; border:2px solid #5a4328; border-radius:8px;
+         box-shadow:0 14px 0 #2b2015, inset 0 0 0 2px rgba(255,255,255,.25);
+         padding:16px 18px 18px; font-family:'Press Start 2P', monospace; color:#232016;
+         background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.05), rgba(0,0,0,.05) 2px, transparent 2px, transparent 6px);}
 
-  .footer{position:fixed;right:20px;bottom:16px;font-size:11px;opacity:.9; z-index:3}
+  .sys{font-size:14px;margin-bottom:12px}
+  .blink{animation:blinkDot 1s infinite}
+  @keyframes blinkDot{0%,50%{opacity:1}50.1%,100%{opacity:0}}
 
-  @media (max-width:840px){
-    .shell{
-      grid-template-columns:1fr;
-      padding-top:88px;
-    }
-    .right-panel{display:none;}
+  .bar{display:flex;gap:10px;align-items:center}
+  .email{flex:1;padding:10px 12px;border:2px solid #7e684a;border-radius:8px;background:#eadab8;color:#232016;
+         font-family:'Press Start 2P', monospace;font-size:12px}
+  .btn{padding:10px 14px;border:2px solid #332514;border-radius:8px;background:#8f6b2a;color:#fff;
+       font-family:'Press Start 2P', monospace; font-size:12px; cursor:pointer;
+       box-shadow:0 4px 0 #332514;}
+  .btn:active{transform:translateY(2px); box-shadow:0 2px 0 #332514}
+
+  
+.helper{margin-top:10px;font-size:10px;color:#ffffff;text-align:right;}
+.helper a{color:#ffffff;text-decoration:none;}
+.helper a:hover{text-decoration:underline;}
+
+  .footer{position:fixed;right:20px;bottom:16px;font-size:12px;opacity:.85; z-index:3}
+  .debug .bg::after{ outline:1px dashed rgba(255,255,255,.35) }
+  .debug .glow-handle{
+    position:fixed; width:18px; height:18px; border-radius:50%; background:rgba(255,255,255,.95);
+    box-shadow:0 0 14px rgba(255,255,255,.85), 0 0 30px rgba(255,255,255,.5) inset;
+    border:2px solid #000; cursor:move; z-index:20; transform:translate(-50%,-50%);
   }
+  .debug .hint{
+    position:fixed; left:12px; bottom:12px; z-index:20; font:12px/1.4 'Press Start 2P', monospace;
+    background:rgba(0,0,0,.55); padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.2);
+  }
+
+  /* Disable glow overlay on dashboard */
+  .bg::after{content:none;}
+  .shell{position:fixed;inset:0;padding:80px 32px 24px;z-index:4;display:flex;align-items:flex-end;justify-content:flex-start;}
+  .panel-quests{width:min(720px,92vw); background:#c9b083; border:2px solid #5a4328; border-radius:8px;
+         box-shadow:0 14px 0 #2b2015, inset 0 0 0 2px rgba(255,255,255,.25);
+         padding:12px 14px 14px; font-family:'Press Start 2P', monospace; color:#232016;
+         background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.05), rgba(0,0,0,.05) 2px, transparent 2px, transparent 6px);
+         display:flex;flex-direction:column;max-height:60vh;}
+
+  .panel-header{{display:flex;gap:8px;margin-bottom:8px;}}
+  .tabs{{display:flex;gap:6px;}}
+  .tab-btn{{position:relative;display:inline-flex;align-items:center;gap:6px;
+           padding:6px 10px 6px 8px;border:2px solid #44301d;border-radius:6px;
+           background:#926a34;color:#fff;font-size:10px;cursor:pointer;
+           box-shadow:0 3px 0 #2b1d10;}}
+  .tab-btn span.icon{{width:12px;height:12px;image-rendering:pixelated;display:inline-block;}}
+  .icon-quests{{background:linear-gradient(#f8e0a8,#f1c55d);
+    box-shadow:0 0 0 1px #3b2a18,0 2px 0 #3b2a18,2px 0 0 #3b2a18,-2px 0 0 #3b2a18;}}
+  .icon-quests::after{{content:"";display:block;width:4px;height:4px;margin:2px auto 0;
+    background:#5b2a24;box-shadow:0 4px 0 #5b2a24;}}
+  .icon-inv{{background:#2b3b46;
+    box-shadow:0 0 0 1px #10141a,0 2px 0 #10141a,2px 0 0 #10141a,-2px 0 0 #10141a;}}
+  .icon-inv::before,
+  .icon-inv::after{{content:"";display:block;margin:1px 2px;height:2px;
+    background:#6fb0c8;box-shadow:0 2px 0 #6fb0c8;}}
+  .tab-btn.active{{background:#f1c55d;color:#2b1d10;box-shadow:0 2px 0 #2b1d10;transform:translateY(1px);}}
+
+  .panel-body{{flex:1;overflow:auto;font-size:11px;margin-top:4px;}}
+  .quest-title{{font-size:13px;color:#f4e0a6;margin-bottom:8px;}}
+  .quest-list{{list-style:none;padding:0;margin:0;}}
+  .quest-item{{display:flex;align-items:flex-start;gap:8px;padding:5px 2px;border-bottom:1px solid rgba(0,0,0,.15);}}
+  .quest-bullet{{width:8px;height:8px;margin-top:3px;background:#4da14f;
+    box-shadow:0 0 0 1px #1b3c18,0 0 8px rgba(77,161,79,.7);}}
+  .quest-text-main{{color:#173814;}}
+  .quest-text-sub{{color:#3e2b14;font-size:9px;margin-top:2px;}}
+
+  .inv-title{{font-size:13px;color:#f4e0a6;margin-bottom:8px;}}
+  .code-card{{margin-bottom:8px;padding:6px 8px;border-radius:6px;border:2px solid #5a4328;
+    background:#e5d1aa;font-size:10px;}}
+  .code-label{{color:#3e2b14;margin-bottom:3px;}}
+  .code-value{{font-size:11px;padding:4px 6px;border-radius:4px;background:#1b1b1b;color:#f5f5f5;letter-spacing:.08em;}}
+  .code-actions{{margin-top:4px;display:flex;gap:6px;}}
+  .tiny-btn{{padding:4px 6px;border-radius:4px;border:2px solid #43301b;background:#8f6b2a;
+    color:#fff;font-size:9px;cursor:pointer;font-family:'Press Start 2P', monospace;}}
+  .tiny-btn:active{{transform:translateY(1px);}}
+
+  @media (max-width:720px){{
+    .shell{{justify-content:center;padding:80px 12px 24px;}}
+    .panel-quests{{max-height:70vh;}}
+  }}
+
 </style>
 </head>
 <body>
@@ -386,7 +171,7 @@
   </div>
 
   <div class="shell">
-    <section class="panel">
+    <section class="panel-quests" aria-label="Quests and inventory">
       <header class="panel-header">
         <div class="tabs">
           <button class="tab-btn active" data-tab="quests">
@@ -432,28 +217,11 @@
         </div>
       </div>
     </section>
-
-    <aside class="right-panel">
-      <h3>Account</h3>
-      <div class="right-row">
-        <span class="right-label">Email</span>
-        <span class="right-value" id="right-email">-</span>
-      </div>
-      <div class="right-row">
-        <span class="right-label">Points</span>
-        <span class="right-value" id="right-points">0</span>
-      </div>
-      <div class="right-row">
-        <span class="right-label">Quests</span>
-        <span class="right-value">3</span>
-      </div>
-    </aside>
   </div>
 
   <div class="footer">© 2025 Duel PVP</div>
 
   <script>
-    // Tab switching
     const tabButtons = document.querySelectorAll('.tab-btn');
     const questsBody = document.getElementById('tab-quests');
     const invBody    = document.getElementById('tab-inventory');
@@ -463,7 +231,7 @@
         tabButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const tab = btn.getAttribute('data-tab');
-        if(tab === 'quests'){
+        if (tab === 'quests') {
           questsBody.style.display = 'block';
           invBody.style.display = 'none';
         } else {
@@ -473,18 +241,9 @@
       });
     });
 
-    // Fill account email from localStorage
-    const storedEmail = (typeof localStorage !== 'undefined') ? localStorage.getItem('duelpvp_email') : null;
-    if(storedEmail){
-      document.getElementById('right-email').textContent = storedEmail;
-    }
-
-    // Placeholder Supabase-like fetch: here we just simulate three codes.
-    // Later you will replace this block with a real Supabase call using the email.
-    function loadCodes(){
+    function loadCodes() {
       const container = document.getElementById('codes-container');
       const fakeCodes = ['DUEL-2ACABC08','DUEL-386EFF4B','DUEL-08AB3576'];
-
       container.innerHTML = '';
       fakeCodes.forEach((code, idx) => {
         const card = document.createElement('div');
@@ -492,7 +251,7 @@
 
         const label = document.createElement('div');
         label.className = 'code-label';
-        label.textContent = 'Code ' + (idx+1);
+        label.textContent = 'Code ' + (idx + 1);
 
         const value = document.createElement('div');
         value.className = 'code-value';
@@ -517,8 +276,8 @@
         shareBtn.addEventListener('click', () => {
           const url = 'https://duelpvp.com/?code=' + encodeURIComponent(code);
           const text = 'Join me on Duel PVP with this code: ' + code;
-          if(navigator.share){
-            navigator.share({title:'Duel PVP', text, url}).catch(()=>{});
+          if (navigator.share) {
+            navigator.share({ title:'Duel PVP', text, url }).catch(() => {});
           } else {
             alert(text + '\n' + url);
           }
@@ -530,7 +289,6 @@
         card.appendChild(label);
         card.appendChild(value);
         card.appendChild(actions);
-
         container.appendChild(card);
       });
     }
