@@ -90,7 +90,7 @@
        box-shadow:0 4px 0 #332514;}
   .btn:active{transform:translateY(2px); box-shadow:0 2px 0 #332514}
 
-  
+
 .helper{margin-top:10px;font-size:10px;color:#ffffff;text-align:right;}
 .helper a{color:#ffffff;text-decoration:none;}
 .helper a:hover{text-decoration:underline;}
@@ -109,54 +109,73 @@
 
   /* Disable glow overlay on dashboard */
   .bg::after{content:none;}
-  .shell{position:fixed;inset:0;padding:80px 32px 24px;z-index:4;display:flex;align-items:flex-end;justify-content:flex-start;}
-  .panel-quests{width:min(720px,92vw); background:#c9b083; border:2px solid #5a4328; border-radius:8px;
-         box-shadow:0 14px 0 #2b2015, inset 0 0 0 2px rgba(255,255,255,.25);
-         padding:12px 14px 14px; font-family:'Press Start 2P', monospace; color:#232016;
-         background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.05), rgba(0,0,0,.05) 2px, transparent 2px, transparent 6px);
-         display:flex;flex-direction:column;max-height:60vh;}
 
-  .panel-header{{display:flex;gap:8px;margin-bottom:8px;}}
-  .tabs{{display:flex;gap:6px;}}
-  .tab-btn{{position:relative;display:inline-flex;align-items:center;gap:6px;
+  .frame-dashboard{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-start;
+    padding:0 0 10vh 6vw; /* bottom + some left offset so it sits over rock */
+    z-index:4;
+  }
+
+  .panel-quests{
+    width:min(680px,92vw); /* same as main panel */
+    max-height:60vh;
+    background:#c9b083;
+    border:2px solid #5a4328;
+    border-radius:8px;
+    box-shadow:0 14px 0 #2b2015, inset 0 0 0 2px rgba(255,255,255,.25);
+    padding:12px 14px 14px;
+    font-family:'Press Start 2P', monospace;
+    color:#232016;
+    background-image:repeating-linear-gradient(0deg, rgba(0,0,0,.05), rgba(0,0,0,.05) 2px, transparent 2px, transparent 6px);
+    display:flex;
+    flex-direction:column;
+  }
+
+  .panel-header{display:flex;gap:8px;margin-bottom:8px;}
+  .tabs{display:flex;gap:6px;}
+  .tab-btn{position:relative;display:inline-flex;align-items:center;gap:6px;
            padding:6px 10px 6px 8px;border:2px solid #44301d;border-radius:6px;
            background:#926a34;color:#fff;font-size:10px;cursor:pointer;
-           box-shadow:0 3px 0 #2b1d10;}}
-  .tab-btn span.icon{{width:12px;height:12px;image-rendering:pixelated;display:inline-block;}}
-  .icon-quests{{background:linear-gradient(#f8e0a8,#f1c55d);
-    box-shadow:0 0 0 1px #3b2a18,0 2px 0 #3b2a18,2px 0 0 #3b2a18,-2px 0 0 #3b2a18;}}
-  .icon-quests::after{{content:"";display:block;width:4px;height:4px;margin:2px auto 0;
-    background:#5b2a24;box-shadow:0 4px 0 #5b2a24;}}
-  .icon-inv{{background:#2b3b46;
-    box-shadow:0 0 0 1px #10141a,0 2px 0 #10141a,2px 0 0 #10141a,-2px 0 0 #10141a;}}
+           box-shadow:0 3px 0 #2b1d10;}
+  .tab-btn span.icon{width:12px;height:12px;image-rendering:pixelated;display:inline-block;}
+  .icon-quests{background:linear-gradient(#f8e0a8,#f1c55d);
+    box-shadow:0 0 0 1px #3b2a18,0 2px 0 #3b2a18,2px 0 0 #3b2a18,-2px 0 0 #3b2a18;}
+  .icon-quests::after{content:"";display:block;width:4px;height:4px;margin:2px auto 0;
+    background:#5b2a24;box-shadow:0 4px 0 #5b2a24;}
+  .icon-inv{background:#2b3b46;
+    box-shadow:0 0 0 1px #10141a,0 2px 0 #10141a,2px 0 0 #10141a,-2px 0 0 #10141a;}
   .icon-inv::before,
-  .icon-inv::after{{content:"";display:block;margin:1px 2px;height:2px;
-    background:#6fb0c8;box-shadow:0 2px 0 #6fb0c8;}}
-  .tab-btn.active{{background:#f1c55d;color:#2b1d10;box-shadow:0 2px 0 #2b1d10;transform:translateY(1px);}}
+  .icon-inv::after{content:"";display:block;margin:1px 2px;height:2px;
+    background:#6fb0c8;box-shadow:0 2px 0 #6fb0c8;}
+  .tab-btn.active{background:#f1c55d;color:#2b1d10;box-shadow:0 2px 0 #2b1d10;transform:translateY(1px);}
 
-  .panel-body{{flex:1;overflow:auto;font-size:11px;margin-top:4px;}}
-  .quest-title{{font-size:13px;color:#f4e0a6;margin-bottom:8px;}}
-  .quest-list{{list-style:none;padding:0;margin:0;}}
-  .quest-item{{display:flex;align-items:flex-start;gap:8px;padding:5px 2px;border-bottom:1px solid rgba(0,0,0,.15);}}
-  .quest-bullet{{width:8px;height:8px;margin-top:3px;background:#4da14f;
-    box-shadow:0 0 0 1px #1b3c18,0 0 8px rgba(77,161,79,.7);}}
-  .quest-text-main{{color:#173814;}}
-  .quest-text-sub{{color:#3e2b14;font-size:9px;margin-top:2px;}}
+  .panel-body{flex:1;overflow:auto;font-size:11px;margin-top:4px;}
+  .quest-title{font-size:13px;color:#f4e0a6;margin-bottom:8px;}
+  .quest-list{list-style:none;padding:0;margin:0;}
+  .quest-item{display:flex;align-items:flex-start;gap:8px;padding:5px 2px;border-bottom:1px solid rgba(0,0,0,.15);}
+  .quest-bullet{width:8px;height:8px;margin-top:3px;background:#4da14f;
+    box-shadow:0 0 0 1px #1b3c18,0 0 8px rgba(77,161,79,.7);}
+  .quest-text-main{color:#173814;}
+  .quest-text-sub{color:#3e2b14;font-size:9px;margin-top:2px;}
 
-  .inv-title{{font-size:13px;color:#f4e0a6;margin-bottom:8px;}}
-  .code-card{{margin-bottom:8px;padding:6px 8px;border-radius:6px;border:2px solid #5a4328;
-    background:#e5d1aa;font-size:10px;}}
-  .code-label{{color:#3e2b14;margin-bottom:3px;}}
-  .code-value{{font-size:11px;padding:4px 6px;border-radius:4px;background:#1b1b1b;color:#f5f5f5;letter-spacing:.08em;}}
-  .code-actions{{margin-top:4px;display:flex;gap:6px;}}
-  .tiny-btn{{padding:4px 6px;border-radius:4px;border:2px solid #43301b;background:#8f6b2a;
-    color:#fff;font-size:9px;cursor:pointer;font-family:'Press Start 2P', monospace;}}
-  .tiny-btn:active{{transform:translateY(1px);}}
+  .inv-title{font-size:13px;color:#f4e0a6;margin-bottom:8px;}
+  .code-card{margin-bottom:8px;padding:6px 8px;border-radius:6px;border:2px solid #5a4328;
+    background:#e5d1aa;font-size:10px;}
+  .code-label{color:#3e2b14;margin-bottom:3px;}
+  .code-value{font-size:11px;padding:4px 6px;border-radius:4px;background:#1b1b1b;color:#f5f5f5;letter-spacing:.08em;}
+  .code-actions{margin-top:4px;display:flex;gap:6px;}
+  .tiny-btn{padding:4px 6px;border-radius:4px;border:2px solid #43301b;background:#8f6b2a;
+    color:#fff;font-size:9px;cursor:pointer;font-family:'Press Start 2P', monospace;}
+  .tiny-btn:active{transform:translateY(1px);}
 
-  @media (max-width:720px){{
-    .shell{{justify-content:center;padding:80px 12px 24px;}}
+  @media (max-width:720px){
+    .frame-dashboard{{justify-content:center;padding:0 0 10vh 0;}}
     .panel-quests{{max-height:70vh;}}
-  }}
+  }
 
 </style>
 </head>
@@ -170,7 +189,7 @@
     <div class="slogan">Real time, real skill, real rewards.</div>
   </div>
 
-  <div class="shell">
+  <main class="frame-dashboard">
     <section class="panel-quests" aria-label="Quests and inventory">
       <header class="panel-header">
         <div class="tabs">
@@ -217,7 +236,7 @@
         </div>
       </div>
     </section>
-  </div>
+  </main>
 
   <div class="footer">© 2025 Duel PVP</div>
 

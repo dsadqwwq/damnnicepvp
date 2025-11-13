@@ -90,7 +90,7 @@
        box-shadow:0 4px 0 #332514;}
   .btn:active{transform:translateY(2px); box-shadow:0 2px 0 #332514}
 
-  
+
 .helper{margin-top:10px;font-size:10px;color:#ffffff;text-align:right;}
 .helper a{color:#ffffff;text-decoration:none;}
 .helper a:hover{text-decoration:underline;}
@@ -108,8 +108,7 @@
   }
 
 
-  /* Small tweak so frame spacing fits login nicely */
-  .frame-login{position:fixed;inset:0;display:grid;place-items:end center;padding-bottom:10vh; z-index:4}
+  .frame-login{position:fixed;inset:0;display:grid;place-items:end center;padding-bottom:10vh; z-index:4;}
 </style>
 </head>
 <body>
@@ -143,8 +142,7 @@
     document.getElementById('login').addEventListener('click', () => {
       const email = document.getElementById('login-email').value.trim();
       const pass  = document.getElementById('login-pass').value.trim();
-      // for now, always go to dashboard – backend wiring comes later
-      try { localStorage.setItem('duelpvp_email', email); } catch(e) {}
+      try { localStorage.setItem('duelpvp_email', email); } catch (e) {}
       window.location.href = 'dashboard.html';
     });
   </script>
